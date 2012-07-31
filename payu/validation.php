@@ -4,17 +4,10 @@ include(dirname(__FILE__).'/../../header.php');
 include(dirname(__FILE__).'/payu.php');
 include(dirname(__FILE__).'/payu.scls.php');
 
-function cleanUP( $str )
-{
-	$arr = array( '"', '«', '»', '&laquo;', '&raquo;' );
-	return str_replace($arr,"'", strip_tags( $str ) );
-}
-
-
-
 $payu = new payu();
+ 
 
-if ($cart->id_customer == 0 OR $cart->id_address_delivery == 0 OR $cart->id_address_invoice == 0 OR !$payu->active)
+if ( $currency->iso_code != $payu->Payu_getVar("currency") OR $cart->id_customer == 0 OR $cart->id_address_delivery == 0 OR $cart->id_address_invoice == 0 OR !$payu->active)
 	Tools::redirectLink(__PS_BASE_URI__.'order.php?step=1');
 
 $customer = new Customer((int)$cart->id_customer);
@@ -40,25 +33,24 @@ $option  = array( 	'merchant' => $payu->Payu_getVar("merchant"),
 					'debug' => $payu->Payu_getVar("debug_mode"),
 					'button' => $button );
 
+
 if ( $payu->Payu_getVar("system_url") != '' ) $option['luUrl'] = $payu->Payu_getVar("system_url");
 
 $forSend = array();
 
 foreach ( $cart->getProducts() as $item )
 {	
-	#echo "<!-- ", var_dump($item)," -->";
 	$price = round( $item['price'], 3 );
 	if ( $item['price'] > $price ) $price += 0.001;
 
-	$forSend['ORDER_PNAME'][] = cleanUP( $item['name'] );
-	$forSend['ORDER_PCODE'][] = cleanUP( $item['id_product'] );
-	$forSend['ORDER_PINFO'][] = cleanUP( $item['description_short'] ) ;
+	$forSend['ORDER_PNAME'][] = $item['name'];
+	$forSend['ORDER_PCODE'][] = $item['id_product'];
+	$forSend['ORDER_PINFO'][] = $item['description_short'];
 	$forSend['ORDER_PRICE'][] = $price;
-	$forSend['ORDER_QTY'][] = $item['cart_quantity'];
-	$forSend['ORDER_VAT'][] = $payu->Payu_getVar("vat");
+	$forSend['ORDER_QTY'][] = $item['quantity'];
+	$forSend['ORDER_VAT'][] = $item['rate'];
 	
 }
-
 
 if ( $payu->Payu_getVar("back_ref") != '' ) $forSend['BACK_REF'] = $payu->Payu_getVar("back_ref");
 

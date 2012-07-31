@@ -17,7 +17,7 @@ class PayuCLS
 	private $data = array(), $dataArr = array(), $answer = ""; 
 	private $LUcell = array( 'MERCHANT' => 1, 'ORDER_REF' => 0, 'ORDER_DATE' => 1, 'ORDER_PNAME' => 1, 'ORDER_PGROUP' => 0,
 							'ORDER_PCODE' => 1, 'ORDER_PINFO' => 0, 'ORDER_PRICE' => 1, 'ORDER_QTY' => 1, 'ORDER_VAT' => 1, 
-							'ORDER_SHIPPING' => 1, 'PRICES_CURRENCY' => 1, 'PAY_METHOD' => 0, "ORDER_PRICE_TYPE" => 0);
+							'ORDER_SHIPPING' => 1, 'PRICES_CURRENCY' => 1);
 
 	private $IPNcell = array( "IPN_PID", "IPN_PNAME", "IPN_DATE", "ORDERSTATUS" );
 
@@ -138,7 +138,7 @@ class PayuCLS
 	private function makeString ( $name, $val )
 	{
 		$str = "";
-		if ( !is_array( $val ) ) return '<input type="'.$this->showinputs.'" name="'.$name.'" value="'.$val.'">'."\n";
+		if ( !is_array( $val ) ) return '<input type="'.$this->showinputs.'" name="'.$name.'" value="'.htmlspecialchars($val).'">'."\n";
 		foreach ($val as $v) $str .= $this->makeString( $name.'[]', $v );
 		return $str;
 	}
