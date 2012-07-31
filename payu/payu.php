@@ -8,7 +8,7 @@ class payu extends PaymentModule
 	public function __construct()
 	{
 		$this->name = 'payu';
-		$this->tab = 'payment';
+		$this->tab = 'Payment';
 		$this->version = '0.1';
 		$this->author = 'PayU';
 		
