@@ -1,3 +1,6 @@
+(For PayU Ukraine and Russian ONLY)
+-------
+
 Модуль для Prestashop 1.3.х
 =========
 
