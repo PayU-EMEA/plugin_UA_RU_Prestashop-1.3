@@ -23,7 +23,7 @@ $button = "<div style='position:absolute; top:50%; left:50%; margin:-40px 0px 0p
 		  "<div><img src='./img/loader.gif' width='120px' style='margin:5px 5px;'></div>".
 		  "</div>".
 		  "<script>
-		  	setTimeout( subform, 5000 );
+		  	setTimeout( subform, 1000 );
 		  	function subform(){ document.getElementById('PayUForm').submit(); }
 		  </script>";
 
